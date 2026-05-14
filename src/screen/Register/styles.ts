@@ -111,6 +111,88 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: 'bold',
     },
+    passwordContainer: {
+
+        width: '100%',
+
+        height: 56,
+
+        backgroundColor: '#FFF',
+
+        borderRadius: 14,
+
+        paddingHorizontal: 18,
+
+        flexDirection: 'row',
+
+        alignItems: 'center',
+
+        justifyContent: 'space-between',
+
+        marginBottom: 18,
+
+        elevation: 2,
+
+        shadowColor: '#000',
+
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+
+        shadowOpacity: 0.05,
+
+        shadowRadius: 4,
+    },
+
+    passwordInput: {
+        flex: 1,
+
+        fontSize: 15,
+
+        color: '#222',
+    },
+    passwordConfirmContainer: {
+
+        width: '100%',
+
+        height: 56,
+
+        backgroundColor: '#FFF',
+
+        borderRadius: 14,
+
+        paddingHorizontal: 18,
+
+        flexDirection: 'row',
+
+        alignItems: 'center',
+
+        justifyContent: 'space-between',
+
+        marginBottom: 18,
+
+        elevation: 2,
+
+        shadowColor: '#000',
+
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+
+        shadowOpacity: 0.05,
+
+        shadowRadius: 4,
+    },
+
+    passwordConfirmInput: {
+        flex: 1,
+
+        fontSize: 15,
+
+        color: '#222',
+    },
 
 });
 

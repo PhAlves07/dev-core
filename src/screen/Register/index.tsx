@@ -5,13 +5,22 @@ import {
     TouchableOpacity,
     ScrollView,
     KeyboardAvoidingView,
+    TouchableWithoutFeedback,
+    Keyboard,
+    Alert,
     Platform,
     Image,
 } from 'react-native';
 
+/* IMPORTAR ICONES */
+import { Ionicons } from '@expo/vector-icons';
+/* IMPORTAR USESTATE */
 import { useState } from 'react';
-
+/* IMPORTAR CSS */
 import styles from './styles';
+/* IMPORTAR CARREGAMENTO */
+import { ActivityIndicator, } from 'react-native';
+
 
 export default function RegisterScreen() {
 
@@ -25,8 +34,11 @@ export default function RegisterScreen() {
     const [phoneError, setPhoneError] = useState('');
     const [passwordError, setPasswordError] = useState('');
     const [confirmPasswordError, setConfirmPasswordError] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const [loading, setLoading] = useState(false);
 
-    function handleRegister() {
+    async function handleRegister() {
 
         let valid = true;
 
@@ -35,6 +47,8 @@ export default function RegisterScreen() {
         setPhoneError('');
         setPasswordError('');
         setConfirmPasswordError('');
+
+
 
         /* VALIDAR NOME */
 
@@ -54,8 +68,10 @@ export default function RegisterScreen() {
         }
 
         /* VALIDAR TELEFONE */
+        const phoneNumbers =
+            phone.replace(/\D/g, '');
 
-        if (phone.length < 10) {
+        if (phoneNumbers.length < 11) {
             setPhoneError('Telefone inválido');
             valid = false;
         }
@@ -81,128 +97,260 @@ export default function RegisterScreen() {
         }
 
         /* SUCESSO */
-
         if (valid) {
-            console.log('Cadastro válido');
+
+            setLoading(true);
+
+            try {
+
+                /* SIMULAR REQUISIÇÃO */
+
+                await new Promise(resolve =>
+                    setTimeout(resolve, 2000)
+                );
+
+                Alert.alert(
+                    'Sucesso',
+                    'Conta criada com sucesso!'
+                );
+
+                console.log({
+                    name,
+                    email,
+                    phone,
+                    password,
+                });
+
+            } catch (error) {
+
+                Alert.alert(
+                    'Erro',
+                    'Não foi possível cadastrar'
+                );
+
+            } finally {
+
+                setLoading(false);
+
+            }
         }
+    }
+    function formatPhone(value: string) {
+
+        /* REMOVE TUDO QUE NÃO FOR NÚMERO */
+
+        const numbers = value.replace(/\D/g, '');
+
+        /* LIMITA A 11 DÍGITOS */
+
+        const limited = numbers.slice(0, 11);
+
+        /* FORMATAR */
+
+        if (limited.length <= 2) {
+            return limited;
+        }
+
+        if (limited.length <= 7) {
+            return `(${limited.slice(0, 2)}) ${limited.slice(2)}`;
+        }
+
+        return `(${limited.slice(0, 2)}) ${limited.slice(
+            2,
+            7
+        )}-${limited.slice(7)}`;
     }
 
     return (
         <KeyboardAvoidingView
             style={{ flex: 1 }}
-            behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         >
-            <ScrollView
-                contentContainerStyle={styles.container}
-                showsVerticalScrollIndicator={false}
+
+            <TouchableWithoutFeedback
+                onPress={Keyboard.dismiss}
             >
-                <View>
-                    <Image
-                        source={require('../../assets/logo.png')}
-                        style={styles.logo} />
-                </View>
-                {/* TÍTULO */}
-                <Text style={styles.title}>
-                    Criar Conta
-                </Text>
 
-                <Text style={styles.subtitle}>
-                    Cadastre-se para continuar
-                </Text>
-
-                {/* INPUT NOME */}
-                <TextInput
-                    placeholder="Nome completo"
-                    placeholderTextColor="#999"
-                    style={styles.input}
-
-                    value={name}
-                    onChangeText={setName}
-                />
-                {
-                    nameError ? (
-                        <Text style={styles.errorText}>
-                            {nameError}
-                        </Text>
-                    ) : null
-                }
-
-                {/* INPUT EMAIL */}
-                <TextInput
-                    placeholder="E-mail"
-                    placeholderTextColor="#999"
-                    keyboardType="email-address"
-                    autoCapitalize="none"
-                    style={styles.input}
-
-                    value={email}
-                    onChangeText={setEmail}
-                />
-                {emailError ? (
-                    <Text style={styles.errorText}>
-                        {emailError}
-                    </Text>
-                ) : null}
-
-                {/* INPUT TELEFONE */}
-                <TextInput
-                    placeholder="Telefone"
-                    placeholderTextColor="#999"
-                    keyboardType="phone-pad"
-                    style={styles.input}
-
-                    value={phone}
-                    onChangeText={setPhone}
-                />
-                {phoneError ? (
-                    <Text style={styles.errorText}>
-                        {phoneError}
-                    </Text>
-                ) : null}
-
-                {/* INPUT SENHA */}
-                <TextInput
-                    placeholder="Senha"
-                    placeholderTextColor="#999"
-                    secureTextEntry
-                    style={styles.input}
-
-                    value={password}
-                    onChangeText={setPassword}
-                />
-                {passwordError ? (
-                    <Text style={styles.errorText}>
-                        {passwordError}
-                    </Text>
-                ) : null}
-
-                {/* INPUT CONFIRMAR SENHA */}
-                <TextInput
-                    placeholder="Confirmar senha"
-                    placeholderTextColor="#999"
-                    secureTextEntry
-                    style={styles.input}
-
-                    value={confirmPassword}
-                    onChangeText={setConfirmPassword}
-                />
-                {confirmPasswordError ? (
-                    <Text style={styles.errorText}>
-                        {confirmPasswordError}
-                    </Text>
-                ) : null}
-
-                {/* BOTÃO */}
-                <TouchableOpacity
-                    style={styles.button}
-                    onPress={handleRegister}
+                <ScrollView
+                    contentContainerStyle={styles.container}
+                    showsVerticalScrollIndicator={false}
                 >
-                    <Text style={styles.buttonText}>
-                        Criar conta
-                    </Text>
-                </TouchableOpacity>
 
-            </ScrollView>
+                    <View>
+                        <Image
+                            source={require('../../assets/logo.png')}
+                            style={styles.logo} />
+                    </View>
+                    {/* TÍTULO */}
+                    <Text style={styles.title}>
+                        Criar Conta
+                    </Text>
+
+                    <Text style={styles.subtitle}>
+                        Cadastre-se para continuar
+                    </Text>
+
+                    {/* INPUT NOME */}
+                    <TextInput
+                        placeholder="Nome completo"
+                        placeholderTextColor="#999"
+                        style={styles.input}
+
+                        value={name}
+                        onChangeText={setName}
+                    />
+                    {
+                        nameError ? (
+                            <Text style={styles.errorText}>
+                                {nameError}
+                            </Text>
+                        ) : null
+                    }
+
+                    {/* INPUT EMAIL */}
+                    <TextInput
+                        placeholder="E-mail"
+                        placeholderTextColor="#999"
+                        keyboardType="email-address"
+                        autoCapitalize="none"
+                        style={styles.input}
+
+                        value={email}
+                        onChangeText={setEmail}
+                    />
+                    {emailError ? (
+                        <Text style={styles.errorText}>
+                            {emailError}
+                        </Text>
+                    ) : null}
+
+                    {/* INPUT TELEFONE */}
+                    <TextInput
+                        placeholder="Telefone"
+                        placeholderTextColor="#999"
+                        keyboardType="phone-pad"
+                        style={styles.input}
+
+                        value={phone}
+                        onChangeText={(text) =>
+                            setPhone(formatPhone(text))
+                        }
+                    />
+                    {phoneError ? (
+                        <Text style={styles.errorText}>
+                            {phoneError}
+                        </Text>
+                    ) : null}
+
+                    {/* INPUT SENHA */}
+                    <View style={styles.passwordContainer}>
+
+                        <TextInput
+                            placeholder="Senha"
+                            placeholderTextColor="#999"
+
+                            secureTextEntry={!showPassword}
+
+                            style={styles.passwordInput}
+
+                            value={password}
+                            onChangeText={setPassword}
+                        />
+
+                        <TouchableOpacity
+                            onPress={() => setShowPassword(!showPassword)}
+                        >
+                            <Ionicons
+                                name={
+                                    showPassword
+                                        ? 'eye-off'
+                                        : 'eye'
+                                }
+
+                                size={22}
+                                color="#666"
+                            />
+                        </TouchableOpacity>
+
+                    </View>
+                    {passwordError ? (
+                        <Text style={styles.errorText}>
+                            {passwordError}
+                        </Text>
+                    ) : null}
+
+                    {/* INPUT CONFIRMAR SENHA */}
+                    <View style={styles.passwordConfirmContainer}>
+
+                        <TextInput
+                            placeholder="Confirmar Senha"
+                            placeholderTextColor="#999"
+
+                            secureTextEntry={!showConfirmPassword}
+
+                            style={styles.passwordConfirmInput}
+
+                            value={confirmPassword}
+                            onChangeText={setConfirmPassword}
+                        />
+
+                        <TouchableOpacity
+                            onPress={() => setShowConfirmPassword(!showConfirmPassword)}
+                        >
+                            <Ionicons
+                                name={
+                                    showConfirmPassword
+                                        ? 'eye-off'
+                                        : 'eye'
+                                }
+
+                                size={22}
+                                color="#666"
+                            />
+                        </TouchableOpacity>
+
+                    </View>
+                    {confirmPasswordError ? (
+                        <Text style={styles.errorText}>
+                            {confirmPasswordError}
+                        </Text>
+                    ) : null}
+
+                    {/* BOTÃO */}
+                    <TouchableOpacity
+                        
+                        onPress={handleRegister}
+
+                        disabled={loading}
+
+                        style={[
+                            styles.button,
+
+                            loading && {
+                                opacity: 0.7,
+                            },
+                        ]}
+                    >
+                        {
+                            loading ? (
+
+                                <ActivityIndicator
+                                    color="#FFF"
+                                />
+
+                            ) : (
+
+                                <Text style={styles.buttonText}>
+                                    Criar conta
+                                </Text>
+
+                            )
+                        }
+                    </TouchableOpacity>
+                </ScrollView>
+
+            </TouchableWithoutFeedback>
+
         </KeyboardAvoidingView>
     );
 }
