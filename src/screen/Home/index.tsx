@@ -18,7 +18,7 @@ export default function HomeScreen() {
     const navigation = useNavigation();
     return (
 
-        <><ScrollView style={styles.container}>
+        <ScrollView style={styles.container}>
             {/* HEADER */}
             <View style={styles.header}>
                 <Image
@@ -27,7 +27,7 @@ export default function HomeScreen() {
 
                 <View style={styles.headerRight}>
                     <TouchableOpacity
-                        onPress={() => navigation.navigate('Register' as never)}
+                        onPress={() => navigation.navigate('Login' as never)}
                     >
                         <Ionicons
                             name="person"
@@ -71,30 +71,31 @@ export default function HomeScreen() {
             <Text style={styles.sectionTitle}>
                 Top Serviços requisitados
             </Text>
-        </ScrollView><ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.cardsContainer}
-        >
+            <ScrollView
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                contentContainerStyle={styles.cardsContainer}
+            >
                 <ServiceCard
-                    title="Pintura"
+
                     image={require('../../assets/services/1.png')} />
 
                 <ServiceCard
-                    title="Elétrica"
+
                     image={require('../../assets/services/2.png')} />
 
                 <ServiceCard
-                    title="Limpeza"
+
                     image={require('../../assets/services/3.png')} />
 
                 <ServiceCard
-                    title="Montagem"
+
                     image={require('../../assets/services/4.png')} />
                 <ServiceCard
-                    title='Chaveiro'
+
                     image={require('../../assets/services/5.png')} />
-            </ScrollView></>
+            </ScrollView>
+        </ScrollView>
 
     );
 }

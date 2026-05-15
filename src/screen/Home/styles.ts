@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
   /* TEXTO */
 
   description: {
-    marginTop: 24,
+    marginTop: 70,
 
     fontSize: 16,
     lineHeight: 24,
@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
   /* TÍTULO */
 
   sectionTitle: {
-    marginTop: 34,
+    marginTop: 80,
     marginBottom: 20,
 
     fontSize: 22,
@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
 
   serviceCard: {
     width: 140,
-    height: 180,
+    height: 200,
 
     backgroundColor: '#FFFFFF',
 
